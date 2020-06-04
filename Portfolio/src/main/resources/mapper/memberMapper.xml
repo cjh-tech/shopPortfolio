@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.cjh.mapper.memberMapper">
+  	<insert id ="insert">
+  		insert into register (id,name,password,birth,gender,email,phone,address) values
+  		(#{id},#{name},#{password},#{birth},#{gender},#{email},#{phone},#{address})
+  	</insert>
+  	
+  	<delete id ="delete">
+  		delete from register where id = #{id} 
+  	</delete>
+  	
+  	<update id = "update">
+  		update register set password = #{password} , email = #{email} , 
+  		phone = #{phone} , address = #{address} where id = #{id}
+  	</update>
+  	
+  	<select id ="select" resultType="com.cjh.vo.MemberVO">
+  		select * from register where id = #{id}
+    </select>
+    
+    <select id ="findid" resultType="com.cjh.vo.MemberVO">
+    	select id from register where email = #{email}
+    </select>
+    
+    <select id ="findpw" resultType="com.cjh.vo.MemberVO">
+    	select password from register where id = #{id} and email = #{email}
+    </select>
+    
+</mapper>

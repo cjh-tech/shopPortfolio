@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 쓰는이유  -->
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cjh.mapper.boardMapper">
+	<insert id = "insert">
+		insert into board(id,subject,contents,count,regdate)
+		values(#{id}, #{subject}, #{contents}, #{count}, now()) 
+	</insert>
+	<!-- 게시글 수정 -->
+	<update id = "update">
+		update board set subject = #{subject} ,contents = #{contents} where idx = #{idx}
+	</update>
+	<!-- 글번호로 게시글 삭제 -->
+	<delete id = "delete">
+		delete from board where idx = #{idx}
+	</delete>
+	<!-- 문의게시판 게시글 수  -->
+	<select id = "total" resultType = "Integer">
+		select count(*) as totalCount from board
+	</select>
+	<!--  select만이 vo객체를 결과타입으로 가짐   -->
+	<select id = "selectAll" resultType = "com.cjh.vo.BoardVO">
+		select * from board ORDER BY idx DESC limit #{pageStart} , #{perPageNum}
+	</select>
+	<!-- id 유저 아이디로 글 검색  -->
+	<select id = "selectId" resultType = "com.cjh.vo.BoardVO">
+		select * from board where id = #{id}
+	</select>
+	<!-- 글제목으로 글 검색 -->
+	<select id = "selectSubject" resultType = "com.cjh.vo.BoardVO">
+		select * from board where subject = #{subject}
+	</select>
+	<!-- 글번호 idx로 글검색 -->
+	<select id = "selectIdx" resultType = "com.cjh.vo.BoardVO">
+		select * from board where idx = #{idx}
+	</select>
+	<!-- 글번호로 조회수 검색 -->
+	<select id = "selectCount" resultType="Integer">
+		select count from board where idx = #{idx}
+	</select>
+	<!-- 글번호로 조회수찾고 조회수 증가 -->
+	<update id = "hitCount">
+		update board set count = #{count} where idx = #{idx}
+	</update>
+</mapper>

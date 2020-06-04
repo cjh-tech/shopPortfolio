@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.cjh.mapper.productMapper">
+  	<select id ="select" resultType="com.cjh.vo.ProductVO">
+  		select * from product where product_id = #{product_id}
+    </select>
+    
+    <insert id ="insertBasket">
+    	 insert ignore into basket (userid,product_num,product_name,product_count,price,picture_url) 
+    	values (#{userid},#{product_num},#{product_name},#{product_count},#{price},#{picture_url})
+    </insert>
+    
+    <select id ="selectBasket" resultType="com.cjh.vo.BasketVO">
+    	SELECT basket_id, userid, product_num,  product_name, sum(product_count) as product_count, picture_url , sum(price) as price 
+
+		FROM basket WHERE userid = #{userid} GROUP BY product_num 
+    </select>
+    
+    <update id="updateBasket">
+    	update basket set product_count = #{product_count} ,price = #{price} where userid = #{userid} and product_num = #{product_num}
+    </update>
+    
+     <delete id="basketDelete">
+    	DELETE FROM basket  WHERE basket_id=#{basketId}
+    </delete>
+ 
+    <delete id="basketGropDelete">
+    	DELETE FROM basket  WHERE userid = #{userid} AND product_num=#{productNum}
+    </delete>   
+    
+    <insert id ="insertPurchase">
+    	insert into purchase_history (user_id,product_id,count,totalprice)
+    	values (#{id},#{product_id},#{count},#{totalprice})
+    </insert>
+    
+    <select id ="selectPurchase" resultType="com.cjh.vo.PurchaseVO">
+    	select * from purchase_history where user_id = #{id}	
+    </select>
+  </mapper>
